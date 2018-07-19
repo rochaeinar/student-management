@@ -9,7 +9,7 @@ namespace Student_Management
     /// Student controller
     /// </summary>
     /// <seealso cref="Student_Management.Controller" />
-    internal class StudentController : Controller
+    public class StudentController : Controller
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StudentController"/> class.

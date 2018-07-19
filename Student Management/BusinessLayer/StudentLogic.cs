@@ -46,7 +46,7 @@
         /// <param name="entity">The entity.</param>
         public IList<IEntity> Get(IDictionary<string, object> filters, Type systemType)
         {
-            string propertyToSort = filters.Keys.Contains("Name") ? "Name" : "Date";
+            string propertyToSort = (filters.Keys.Contains("Name") || filters.Keys.Count == 0) ? "Name" : "Date";
             var datasource = StudentStorage.Instance.Get(filters, systemType);
             var param = Expression.Parameter(typeof(Student));
             var getter = Expression.Property(param, propertyToSort);

@@ -8,7 +8,7 @@ namespace Student_Management
     /// <summary>
     /// Base Controller 
     /// </summary>
-    internal abstract class Controller
+    public abstract class Controller
     {
         /// <summary>
         /// The system type
