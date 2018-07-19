@@ -5,11 +5,12 @@
     using System.Collections.Generic;
     using DataAccessLayer;
     using Models;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Business logic
     /// </summary>
-    public class StudentLogic: IBusinessLogic
+    public class StudentLogic : IBusinessLogic
     {
         /// <summary>
         /// Adds the specified entity.
@@ -45,7 +46,19 @@
         /// <param name="entity">The entity.</param>
         public IList<IEntity> Get(IDictionary<string, object> filters, Type systemType)
         {
-            return StudentStorage.Instance.Get(filters, systemType).Cast<IEntity>().ToList();
+            string propertyToSort = filters.Keys.Contains("Name") ? "Name" : "Date";
+            var datasource = StudentStorage.Instance.Get(filters, systemType);
+            var param = Expression.Parameter(typeof(Student));
+            var getter = Expression.Property(param, propertyToSort);
+            var lambda = Expression.Lambda<Func<Student, dynamic>>(getter, param).Compile();
+            if (propertyToSort == "Date")
+            {
+                return datasource.OrderByDescending(lambda).Cast<IEntity>().ToList();
+            }
+            else
+            {
+                return datasource.OrderBy(lambda).Cast<IEntity>().ToList();
+            }
         }
     }
 }

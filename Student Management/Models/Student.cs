@@ -23,7 +23,7 @@ namespace Models
             this.Type = data[0];
             this.Name = data[1];
             this.Gender =data[2];
-            this.Date = DateTime.ParseExact(data[3], FORMAT, System.Globalization.CultureInfo.InvariantCulture);
+            this.Date = data[3];
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Models
         /// <value>
         /// The date.
         /// </value>
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         /// <summary>
         /// Gets or sets the type.
