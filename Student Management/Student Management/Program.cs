@@ -1,15 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Student_Management
 {
-    class Program
+    using System.Collections.Generic;
+    using Common;
+    using Models;
+
+    /// <summary>
+    /// Main Class
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Mains the specified arguments.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        private static void Main(string[] args)
         {
+            StudentController studentController = new StudentController();
+            var lines = CsvReader.ReadCsv("input.csv");
+            using (IEnumerator<string[]> linesEnumerator = lines.GetEnumerator())
+            {
+                while (linesEnumerator.MoveNext())
+                {
+                    IEntity entity = EntityFactory.CreateEntity(EntityType.Student, linesEnumerator.Current);
+                    studentController.Add(entity);
+                }
+            }
         }
     }
 }
