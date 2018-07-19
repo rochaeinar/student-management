@@ -25,6 +25,11 @@ namespace Student_Management
                     studentController.Add(entity);
                 }
             }
+
+            IDictionary<string, object> dictionary = new Dictionary<string, object>();
+            dictionary.Add("Name", "Emma");
+            dictionary.Add("Gender", "F");
+            var data = studentController.Get(dictionary);
         }
     }
 }

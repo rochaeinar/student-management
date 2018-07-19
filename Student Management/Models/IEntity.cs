@@ -1,13 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Models
 {
+    using System;
+
+    /// <summary>
+    /// IEntity Interface
+    /// </summary>
     public interface IEntity
     {
-       int Id { get; set; }
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        int Id { get; set; }
     }
 }

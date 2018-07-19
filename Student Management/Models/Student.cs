@@ -20,9 +20,9 @@ namespace Models
         /// <param name="data">The data.</param>
         public Student(string[] data)
         {
-            this.Type = (StudentType)Enum.Parse(typeof(StudentType), data[0], true);
+            this.Type = data[0];
             this.Name = data[1];
-            this.Gender = (Gender)Enum.Parse(typeof(Gender), data[2], true);
+            this.Gender =data[2];
             this.Date = DateTime.ParseExact(data[3], FORMAT, System.Globalization.CultureInfo.InvariantCulture);
         }
 
@@ -56,7 +56,7 @@ namespace Models
         /// <value>
         /// The type.
         /// </value>
-        public StudentType Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the gender.
@@ -64,6 +64,6 @@ namespace Models
         /// <value>
         /// The gender.
         /// </value>
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
     }
 }

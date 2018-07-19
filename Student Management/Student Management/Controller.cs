@@ -2,6 +2,8 @@ namespace Student_Management
 {
     using BusinessLayer;
     using Models;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Base Controller 
@@ -9,11 +11,25 @@ namespace Student_Management
     internal abstract class Controller
     {
         /// <summary>
+        /// The system type
+        /// </summary>
+        private Type systemType;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Controller"/> class.
         /// </summary>
         public Controller()
         {
-            this.BusinessLogic = new BusinessLogic();
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Controller"/> class.
+        /// </summary>
+        public Controller(Type systemType, IBusinessLogic BusinessLogic)
+        {
+            this.BusinessLogic = BusinessLogic;
+            this.systemType = systemType;
         }
 
         /// <summary>
@@ -22,7 +38,7 @@ namespace Student_Management
         /// <value>
         /// The business logic.
         /// </value>
-        protected BusinessLogic BusinessLogic { get; set; }
+        protected IBusinessLogic BusinessLogic { get; set; }
 
         /// <summary>
         /// Adds the specified entity.
@@ -56,9 +72,9 @@ namespace Student_Management
         /// Gets the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public void Get(IEntity entity)
+        public IList<IEntity> Get(IDictionary<string, object> filters)
         {
-            this.BusinessLogic.Get(entity);
+            return this.BusinessLogic.Get(filters, this.systemType);
         }
     }
 }
