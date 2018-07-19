@@ -15,7 +15,7 @@ namespace DataAccessLayer
         /// <summary>
         /// The entities
         /// </summary>
-        private List<T> entities;
+        private IList<T> entities;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="Storage"/> class from being created.
@@ -31,7 +31,7 @@ namespace DataAccessLayer
         /// <param name="entity">The entity.</param>
         public void Add(T entity)
         {
-            //entity.Id = this.entities.Count;
+            ((IEntity)entity).Id = this.entities.Count;
             this.entities.Add(entity);
         }
 
@@ -41,7 +41,11 @@ namespace DataAccessLayer
         /// <param name="id">The identifier.</param>
         public void Delete(int id)
         {
-
+            var entity = entities.FirstOrDefault(p => ((IEntity)p).Id == id);
+            if (entity != null)
+            {
+                entities.Remove(entity);
+            }
         }
 
         /// <summary>
@@ -51,7 +55,8 @@ namespace DataAccessLayer
         /// <param name="entity">The entity.</param>
         public void Update(int id, IEntity entity)
         {
-
+            var oldEntity = entities.FirstOrDefault(p => ((IEntity)p).Id == id);
+            oldEntity = (T)entity;
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace DataAccessLayer
                     {
                         call = Expression.Call(propertyAccess, equalsMethod, Expression.Constant(filters[propertyName].ToString()));
                     }
-                    
+
                     if (null == dynamicLambda)
                     {
                         dynamicLambda = call;
@@ -96,6 +101,10 @@ namespace DataAccessLayer
                 Expression<Func<T, bool>> predicate = Expression.Lambda<Func<T, bool>>(dynamicLambda, parameter);
                 Func<T, bool> compiled = predicate.Compile();
                 datasource = entities.AsQueryable().Where(compiled).ToList<T>();
+            }
+            else
+            {
+                datasource = entities;
             }
             return datasource;
         }

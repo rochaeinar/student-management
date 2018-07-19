@@ -27,9 +27,19 @@ namespace Student_Management
             }
 
             IDictionary<string, object> dictionary = new Dictionary<string, object>();
-            dictionary.Add("Name", "Emma");
-            dictionary.Add("Gender", "F");
+            //dictionary.Add("Name", "Emma");
+            //dictionary.Add("Gender", "F");
             var data = studentController.Get(dictionary);
+
+            Student student = (Student)data[0];
+            student.Name = "updated";
+            studentController.Update(student.Id, student);
+            data = studentController.Get(dictionary);
+
+            student = (Student)data[0];
+            studentController.Delete(student.Id);
+            data = studentController.Get(dictionary);
+
         }
     }
 }
