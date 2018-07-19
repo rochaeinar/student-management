@@ -3,6 +3,7 @@ namespace Student_Management
     using System.Collections.Generic;
     using Common;
     using Models;
+    using System;
 
     /// <summary>
     /// Main Class
@@ -16,7 +17,10 @@ namespace Student_Management
         private static void Main(string[] args)
         {
             StudentController studentController = new StudentController();
-            var lines = CsvReader.ReadCsv("input.csv");
+
+            string inputFile = args.Length > 0 && args[0].EndsWith("csv") ? args[0] : "input.csv";
+
+            var lines = CsvReader.ReadCsv(inputFile);
             using (IEnumerator<string[]> linesEnumerator = lines.GetEnumerator())
             {
                 while (linesEnumerator.MoveNext())
@@ -27,19 +31,19 @@ namespace Student_Management
             }
 
             IDictionary<string, object> dictionary = new Dictionary<string, object>();
-            //dictionary.Add("Name", "Emma");
-            //dictionary.Add("Gender", "F");
+
+            for (var i = 1; i < args.Length; i++)
+            {
+                string[] nameValuePair = args[i].Split('=');
+                dictionary.Add(nameValuePair[0], nameValuePair[1]);
+            }
+
             var data = studentController.Get(dictionary);
 
-            Student student = (Student)data[0];
-            student.Name = "updated";
-            studentController.Update(student.Id, student);
-            data = studentController.Get(dictionary);
-
-            student = (Student)data[0];
-            studentController.Delete(student.Id);
-            data = studentController.Get(dictionary);
-
+            foreach (IEntity student in data)
+            {
+                Console.WriteLine(student.ToString());
+            }
         }
     }
 }

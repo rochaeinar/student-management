@@ -65,5 +65,15 @@ namespace Models
         /// The gender.
         /// </value>
         public string Gender { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("ID: {0}, Name:{1}, Type:{2}, Gender:{3}, Date:{4}", 
+                this.Id,
+                this.Name, 
+                this.Type, 
+                this.Gender,
+                DateTime.ParseExact(this.Date, FORMAT, System.Globalization.CultureInfo.InvariantCulture).ToString());
+        }
     }
 }
